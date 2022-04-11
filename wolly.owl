@@ -1,0 +1,1400 @@
+@prefix : <http://www.semanticweb.org/albertolillo/wolly#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://www.schema.org/> .
+@base <http://www.semanticweb.org/albertolillo/wolly> .
+
+<http://www.semanticweb.org/albertolillo/wolly> rdf:type owl:Ontology ;
+                                                 owl:imports <http://www.ontologydesignpatterns.org/cp/owl/list.owl> ;
+                                                 <http://purl.org/dc/elements/1.1/creator> "Alberto Lillo" ,
+                                                                                           "Enrico Mosca" ;
+                                                 <http://purl.org/dc/elements/1.1/date> "2022-04-13" ;
+                                                 <http://purl.org/dc/elements/1.1/description> "Ontologia che ha come argomento i cartoni animati. Creata per la conoscenza del robot affettivo Wolly." ;
+                                                 <http://purl.org/dc/elements/1.1/title> "Wolly" ;
+                                                 <http://purl.org/vocab/vann/preferredNamespacePrefix> "wolly" ;
+                                                 <http://purl.org/vocab/vann/preferredNamespaceUri> "http://www.wolly.it/ontology" ;
+                                                 rdfs:label "wolly" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/elements/1.1/creator
+<http://purl.org/dc/elements/1.1/creator> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/date
+<http://purl.org/dc/elements/1.1/date> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/description
+<http://purl.org/dc/elements/1.1/description> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/title
+<http://purl.org/dc/elements/1.1/title> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/vocab/vann/preferredNamespacePrefix
+<http://purl.org/vocab/vann/preferredNamespacePrefix> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/vocab/vann/preferredNamespaceUri
+<http://purl.org/vocab/vann/preferredNamespaceUri> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.ontologydesignpatterns.org/cp/owl/bag.owl#hasItem
+<http://www.ontologydesignpatterns.org/cp/owl/bag.owl#hasItem> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.ontologydesignpatterns.org/cp/owl/list.owl#hasFirstItem
+<http://www.ontologydesignpatterns.org/cp/owl/list.owl#hasFirstItem> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.ontologydesignpatterns.org/cp/owl/sequence.owl#follows
+<http://www.ontologydesignpatterns.org/cp/owl/sequence.owl#follows> rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://purl.org/vocab/vann/haComeAltroPersonaggio
+<http://purl.org/vocab/vann/haComeAltroPersonaggio> rdf:type owl:ObjectProperty ;
+                                                    owl:inverseOf <http://purl.org/vocab/vann/recitaInCoppiaIn> ;
+                                                    rdfs:domain :Cartoon ;
+                                                    rdfs:range :Personaggio ;
+                                                    rdfs:comment "haComeAltroPersonaggio - Se un opera ha un CoProtagonista che recita con un principale, il primo sarà un personaggio dello stesso opera"@it ;
+                                                    rdfs:label "ha come altro personaggio"@it .
+
+
+###  http://purl.org/vocab/vann/recitaInCoppiaIn
+<http://purl.org/vocab/vann/recitaInCoppiaIn> rdf:type owl:ObjectProperty ;
+                                              rdfs:subPropertyOf owl:topObjectProperty ;
+                                              rdfs:domain :Personaggio ;
+                                              rdfs:range :Cartoon ;
+                                              owl:propertyChainAxiom ( :èInsiemeA
+                                                                       :recitaIn
+                                                                     ) ;
+                                              rdfs:comment "recitaInCoppiaIn - Se un personaggio recita insieme ad un principale, recita nella stessa opera cinematografica"@it ;
+                                              rdfs:label "recita in coppia in"@it .
+
+
+###  http://www.ontologydesignpatterns.org/cp/owl/bag.owl#itemContent
+<http://www.ontologydesignpatterns.org/cp/owl/bag.owl#itemContent> rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#contiene
+:contiene rdf:type owl:ObjectProperty ;
+          owl:inverseOf <http://www.semanticweb.org/albertolillo/wolly#èContenuto/a_in> ;
+          rdf:type owl:TransitiveProperty ;
+          rdfs:domain :Serie ;
+          rdfs:range :Serie ;
+          rdfs:comment "contiene - Se una serie contiene una stagione e la stagione contiene un episodio, allora anche la serie contiene l'episodio" ;
+          rdfs:label "contiene"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#contieneFilm
+:contieneFilm rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf <http://www.ontologydesignpatterns.org/cp/owl/bag.owl#itemContent> ;
+              rdfs:domain :Capitolo ;
+              rdfs:range :Cartoon ;
+              rdfs:label "contiene il film"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#daLaVoceA
+:daLaVoceA rdf:type owl:ObjectProperty ;
+           owl:inverseOf :vieneDoppiatoDa ;
+           rdfs:domain :Doppiatore ;
+           rdfs:range :Personaggio ;
+           rdfs:comment "daLaVoceA - Definisce l'azione dell'attore nel doppiare un personaggio dell'operea cinematografica"^^xsd:string ;
+           rdfs:label "da la voce a"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#direttoDa
+:direttoDa rdf:type owl:ObjectProperty ;
+           owl:inverseOf :dirige ;
+           rdfs:domain :Cartoon ;
+           rdfs:range :Regista ;
+           rdfs:comment "direttoDa - Definisce l'azione del realizzare un'opera cinematografica guidando le riprese come regista."^^xsd:string ;
+           rdfs:label "diretto da"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#dirige
+:dirige rdf:type owl:ObjectProperty ;
+        rdfs:domain :Regista ;
+        rdfs:range :Cartoon ;
+        rdfs:comment "dirige - Realizzare un'opera cinematografica guidando le riprese come regista."^^xsd:string ;
+        rdfs:label "dirige"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#disegna
+:disegna rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf owl:topObjectProperty ;
+         owl:inverseOf :è_stato_disegnato_da ;
+         rdfs:domain :Animatore ;
+         rdfs:range :Personaggio ;
+         rdfs:comment "disegna - Mette in relazione l'animatore con il personaggio che ha disegnato"@it ;
+         rdfs:label "disegna"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#distribuisce
+:distribuisce rdf:type owl:ObjectProperty ;
+              owl:inverseOf :distributoDa ;
+              rdfs:domain :Studio ;
+              rdfs:range :Cartoon ;
+              rdfs:comment "distribuisce - Mette in relazione lo studio che distribuisce l'opera"@it ;
+              rdfs:label "distribuisce"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#distributoDa
+:distributoDa rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cartoon ;
+              rdfs:range :Studio ;
+              rdfs:comment "distribuitoDa - Mette in relazione l'opera con lo studio che l'ha prodotta"@it ;
+              rdfs:label "distribuito da"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#haComeAntagonista
+:haComeAntagonista rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf :haComePersonaggio ;
+                   owl:inverseOf :èIlCattivoDi ;
+                   rdfs:domain :Cartoon ;
+                   rdfs:range :Antagonista ;
+                   rdfs:comment "haComeAntagonista - Indica l'antagonista di un opera cinematografica"@it ;
+                   rdfs:label "ha come antagonista"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#haComeCompagno
+:haComeCompagno rdf:type owl:ObjectProperty ;
+                owl:inverseOf :recitaInCoppiaCon ;
+                rdfs:domain :Secondario ;
+                rdfs:range :Secondario ;
+                rdfs:comment "haComeCompagno - Mette in relazione due personaggi secondari per essere classificati come CoppiaDiPersonaggi"@it ;
+                rdfs:label "ha come compagno"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#haComePersonaggio
+:haComePersonaggio rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf owl:topObjectProperty ;
+                   owl:inverseOf :recitaIn ;
+                   rdfs:domain :Cartoon ;
+                   rdfs:range :Personaggio ;
+                   rdfs:comment "haComePersonaggio - Indica il personaggio che recita in un opera cinematografica"@it ;
+                   rdfs:label "ha come personaggio"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#haComeProtagonista
+:haComeProtagonista rdf:type owl:ObjectProperty ;
+                    rdfs:subPropertyOf :haComePersonaggio ;
+                    owl:inverseOf :èilProtagonistaDi ;
+                    rdfs:domain :Cartoon ;
+                    rdfs:range :Principale ;
+                    rdfs:comment "haComeProtagonista - Indica il protagonista di un opera cinematografica"@it ;
+                    rdfs:label "ha come protagonista"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#haLavoratoA
+:haLavoratoA rdf:type owl:ObjectProperty ;
+             owl:inverseOf :èStatoProdottoDa ;
+             rdfs:domain :Produzione ;
+             rdfs:range :Cartoon ;
+             owl:propertyChainAxiom ( :daLaVoceA
+                                      :recitaIn
+                                    ) ,
+                                    ( :disegna
+                                      :recitaIn
+                                    ) ;
+             rdfs:comment "haLavoratoA - Mette in relazione una persona della produzione che ha preso parte alla creazione di un opera cinematografica"@it ;
+             rdfs:label "ha lavorato a"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#haNazionalità
+:haNazionalità rdf:type owl:ObjectProperty ;
+               rdfs:domain :Cartoon ;
+               rdfs:range :Nazionalità ;
+               owl:propertyChainAxiom ( :distributoDa
+                                        :haSedeIn
+                                      ) ;
+               rdfs:comment "haNazionalità - Indica la nazionalità di appartenenza di un opera cinematografica"@it ;
+               rdfs:label "ha nazionalità"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#haSedeIn
+:haSedeIn rdf:type owl:ObjectProperty ,
+                   owl:FunctionalProperty ;
+          rdfs:domain :Studio ;
+          rdfs:range :Nazionalità ;
+          rdfs:comment "haSedeIn - Indica la nazionalità in cui ha sede lo studio"@it ;
+          rdfs:label "ha sede in"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#lavoraIn
+:lavoraIn rdf:type owl:ObjectProperty ;
+          rdfs:domain :Produzione ;
+          rdfs:range :Studio ;
+          rdfs:comment "lavoraIn - Mette in relazione lo studio con un membro della produzione in cui lavora"@it ;
+          rdfs:label "lavora in"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#recitaIn
+:recitaIn rdf:type owl:ObjectProperty ;
+          rdfs:domain :Personaggio ;
+          rdfs:range :Cartoon ;
+          rdfs:comment "recitaIn - Mette in relazione il personaggio con l'opera in cui recita"@it ;
+          rdfs:label "recita in"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#recitaInCoppiaCon
+:recitaInCoppiaCon rdf:type owl:ObjectProperty ,
+                            owl:SymmetricProperty ;
+                   rdfs:domain :Personaggio ;
+                   rdfs:range :Personaggio ;
+                   rdfs:comment "recitaInCoppiaCon - Mette in relazione due personaggi che recitano in coppia"@it ;
+                   rdfs:label "recita in coppia con"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#scrittoDa
+:scrittoDa rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf owl:topObjectProperty ;
+           owl:inverseOf :scrive ;
+           rdfs:domain :Cartoon ;
+           rdfs:range :Autore ;
+           rdfs:comment "scrittoDa - Mette in relazione l'autore don l'opera cinematografica che ha scritto"@it ;
+           rdfs:label "scritto da"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#scrive
+:scrive rdf:type owl:ObjectProperty ;
+        rdfs:domain :Autore ;
+        rdfs:range :Cartoon ;
+        rdfs:comment "scrive - Mette in relazione l'autore con l'opera cinematografica che ha scritto"@it ;
+        rdfs:label "scrive"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#vieneDoppiatoDa
+:vieneDoppiatoDa rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Personaggio ;
+                 rdfs:range :Doppiatore ;
+                 rdfs:comment "vieneDoppiatoDa - Mette in relazione il doppiatore e il personaggio doppiato da esso in un opera cinematografica"@it ;
+                 rdfs:label "viene doppiato da"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#èEpisodioDi
+:èEpisodioDi rdf:type owl:ObjectProperty ,
+                      owl:FunctionalProperty ,
+                      owl:AsymmetricProperty ;
+             rdfs:domain :Episodio ;
+             rdfs:range :Stagione ;
+             rdfs:comment "èEpisodioDi - Mette in relazione l'episodio con la stagione in cui è contenuto"@it ;
+             rdfs:label "è episodio di"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#èIlCattivoDi
+:èIlCattivoDi rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf :recitaIn ;
+              rdfs:domain :Antagonista ;
+              rdfs:range :Cartoon ;
+              rdfs:comment "èilCattivoDi - Indica il personaggio che ha la parte di \"cattivo\" nell'opera cinematografica"@it ;
+              rdfs:label "è il cattivo di"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#èIlDoppiaggioDi
+:èIlDoppiaggioDi rdf:type owl:ObjectProperty ,
+                          owl:FunctionalProperty ;
+                 rdfs:domain :Cartoon ;
+                 rdfs:range :Cartoon ;
+                 rdfs:comment "èIlDoppiaggioDi - Mette in relazione l'opera doppiato con la sua originale"@it ;
+                 rdfs:label "è il doppiaggio di"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#èInsiemeA
+:èInsiemeA rdf:type owl:ObjectProperty ,
+                    owl:SymmetricProperty ;
+           rdfs:domain :coProtagonista ;
+           rdfs:range :Principale ;
+           rdfs:comment "èInsiemeA - Mette in relazione il coProtagonista con il Protagonista"@it ;
+           rdfs:label "è insieme a"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#èStagioneDi
+:èStagioneDi rdf:type owl:ObjectProperty ,
+                      owl:FunctionalProperty ;
+             rdfs:domain :Stagione ;
+             rdfs:range :Serie ;
+             rdfs:comment "èStagioneDi - Mette in relazione la stagione con la serie"@it ;
+             rdfs:label "è stagione di"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#èStatoProdottoDa
+:èStatoProdottoDa rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf owl:topObjectProperty ;
+                  rdfs:domain :Cartoon ;
+                  rdfs:range :Produzione ;
+                  rdfs:comment "èStatoProdottoDa - Mette in relazione il produttore di un opera cinematografica con l'opera"@it ;
+                  rdfs:label "è stato prodotto da"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#è_stato_disegnato_da
+:è_stato_disegnato_da rdf:type owl:ObjectProperty ;
+                      rdfs:domain :Personaggio ;
+                      rdfs:range :Animatore ;
+                      rdfs:comment "èStatoDisegnatoDa - Mette in relazione il disegnatore di un opera cinematografica con il suo personaggio"@it ;
+                      rdfs:label "è stato disegnato da"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#èilProtagonistaDi
+:èilProtagonistaDi rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf :recitaIn ;
+                   rdfs:domain :Principale ;
+                   rdfs:range :Cartoon ;
+                   rdfs:comment "èIlProtagonistaDi - Indica il protagonista di opera cinematografica"@it ;
+                   rdfs:label "è il protagonista di"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#èContenuto/a_in
+<http://www.semanticweb.org/albertolillo/wolly#èContenuto/a_in> rdf:type owl:ObjectProperty ,
+                                                                         owl:TransitiveProperty ;
+                                                                rdfs:domain :Serie ;
+                                                                rdfs:range :Serie ;
+                                                                rdfs:comment "èContenuto - Se un episodio è contenuto in una stagione e la stagione è contenuta in una serie, allora l'episodio sarà contenuto nella stessa serie"@it ;
+                                                                rdfs:label "è contenuto/a in"^^xsd:string .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.semanticweb.org/albertolillo/wolly#anno
+:anno rdf:type owl:DatatypeProperty ;
+      rdfs:domain :Cartoon ;
+      rdfs:range xsd:int ;
+      rdfs:comment "anno - Anno d'uscita dell'opera cinematografica"^^xsd:string ;
+      rdfs:label "anno"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#annoDiNascita
+:annoDiNascita rdf:type owl:DatatypeProperty ;
+               rdfs:subPropertyOf owl:topDataProperty ;
+               rdf:type owl:FunctionalProperty ;
+               rdfs:domain :Produzione ;
+               rdfs:comment "annoDiNascita - Anno di nascita di una persona della produzione"^^xsd:string ;
+               rdfs:label "annoDiNascita"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#durata
+:durata rdf:type owl:DatatypeProperty ;
+        rdfs:domain :Cartoon ;
+        rdfs:range xsd:int ;
+        rdfs:comment "durata - Duarata temporale di un opera cinematografica"^^xsd:string ;
+        rdfs:label "durata"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#etapubblico
+:etapubblico rdf:type owl:DatatypeProperty ;
+             rdfs:domain <http://www.semanticweb.org/albertolillo/wolly#TecnicheD'animazione> ;
+             rdfs:range xsd:integer ;
+             rdfs:comment "etàPubblico - età del pubblico a cui è rivolta l'opera cinematografica" ;
+             rdfs:label "etàPubblico" .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#genere
+:genere rdf:type owl:DatatypeProperty ;
+        rdfs:domain :Genere ;
+        rdfs:range xsd:string ;
+        rdfs:comment "genere - Genere cinematografico a cui appartiene il film" ;
+        rdfs:label "genere"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#lingua
+:lingua rdf:type owl:DatatypeProperty ;
+        rdfs:domain :Cartoon ;
+        rdfs:range xsd:string ;
+        rdfs:comment "lingua - Lingua in cui è doppiata l'opera cinematografica"^^xsd:string ;
+        rdfs:label "lingua"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#linguaOriginale
+:linguaOriginale rdf:type owl:DatatypeProperty ;
+                 rdfs:domain :Cartoon ;
+                 rdfs:range xsd:string ;
+                 rdfs:comment "linguaOriginale - Lingua originale in cui è stata doppiata l'opera cinematografica" ;
+                 rdfs:label "linguaOriginale"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#luogoDiNascita
+:luogoDiNascita rdf:type owl:DatatypeProperty ;
+                rdfs:subPropertyOf owl:topDataProperty ;
+                rdf:type owl:FunctionalProperty ;
+                rdfs:domain :Produzione ;
+                rdfs:comment "luogoDiNascita - Luogo di nascita di una persona della produzione" ;
+                rdfs:label "luogoDiNascita"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#nome
+:nome rdf:type owl:DatatypeProperty ;
+      rdfs:comment "nome"@it ;
+      rdfs:label "nome"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#potere
+:potere rdf:type owl:DatatypeProperty ;
+        rdfs:domain :PersonaggioConPoteri ;
+        rdfs:range xsd:string ;
+        rdfs:comment "potere - Potere di un personaggio" ;
+        rdfs:label "potere"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#titolo
+:titolo rdf:type owl:DatatypeProperty ;
+        owl:equivalentProperty :titoloOriginale ;
+        rdfs:domain :Cartoon ;
+        rdfs:range xsd:string ;
+        rdfs:comment "titolo - Nome dell'oprea cinematografica"^^xsd:string ;
+        rdfs:label "titolo"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#titoloAlternativo
+:titoloAlternativo rdf:type owl:DatatypeProperty ;
+                   rdfs:subPropertyOf :titolo ;
+                   rdfs:comment "titoloAlternativo - Altro titolo con cui viene chiamata l'opera cinematografica" ;
+                   rdfs:label "titoloAlternativo"^^xsd:string .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#titoloOriginale
+:titoloOriginale rdf:type owl:DatatypeProperty ;
+                 rdfs:subPropertyOf :titolo ;
+                 rdfs:domain :Cartoon ;
+                 rdfs:range xsd:string ;
+                 rdfs:comment "titoloOriginale - Titolo in lingua originale dell'opera cinematografica" ;
+                 rdfs:label "titoloOriginale"^^xsd:string .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://schema.org/Movie
+<http://schema.org/Movie> rdf:type owl:Class ;
+                          owl:equivalentClass :Film .
+
+
+###  http://schema.org/TVEpisode
+<http://schema.org/TVEpisode> rdf:type owl:Class ;
+                              owl:equivalentClass :Episodio .
+
+
+###  http://schema.org/TVSeason
+<http://schema.org/TVSeason> rdf:type owl:Class ;
+                             owl:equivalentClass :Stagione .
+
+
+###  http://schema.org/TVSeries
+<http://schema.org/TVSeries> rdf:type owl:Class ;
+                             owl:equivalentClass :Serie .
+
+
+###  http://schema.org/author
+<http://schema.org/author> rdf:type owl:Class ;
+                           owl:equivalentClass :Autore .
+
+
+###  http://schema.org/countryOfOrigin
+<http://schema.org/countryOfOrigin> rdf:type owl:Class ;
+                                    owl:equivalentClass :Nazionalità .
+
+
+###  http://schema.org/director
+<http://schema.org/director> rdf:type owl:Class ;
+                             owl:equivalentClass :Regista .
+
+
+###  http://www.ontologydesignpatterns.org/cp/owl/list.owl#List
+<http://www.ontologydesignpatterns.org/cp/owl/list.owl#List> rdf:type owl:Class .
+
+
+###  http://www.ontologydesignpatterns.org/cp/owl/list.owl#ListItem
+<http://www.ontologydesignpatterns.org/cp/owl/list.owl#ListItem> rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Animatore
+:Animatore rdf:type owl:Class ;
+           owl:equivalentClass [ rdf:type owl:Restriction ;
+                                 owl:onProperty :disegna ;
+                                 owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass :Personaggio
+                               ] ;
+           rdfs:subClassOf :Produzione ;
+           rdfs:comment "Animatore - Disegnatore di cartoni animati"^^xsd:string ;
+           rdfs:label "Animatore"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Antagonista
+:Antagonista rdf:type owl:Class ;
+             owl:equivalentClass [ rdf:type owl:Restriction ;
+                                   owl:onProperty :èIlCattivoDi ;
+                                   owl:someValuesFrom :Cartoon
+                                 ] ;
+             rdfs:subClassOf :Ruolo ;
+             rdfs:comment "Antagonista - Personaggio in conflitto con il protagonista" ;
+             rdfs:label "Antagonista"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Autore
+:Autore rdf:type owl:Class ;
+        owl:equivalentClass [ rdf:type owl:Restriction ;
+                              owl:onProperty :scrive ;
+                              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass :Cartoon
+                            ] ;
+        rdfs:subClassOf :Produzione ;
+        rdfs:comment "Autore - Colui che crea la trama del film"^^xsd:string ;
+        rdfs:label "Autore"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Avventura
+:Avventura rdf:type owl:Class ;
+           owl:equivalentClass [ rdf:type owl:Restriction ;
+                                 owl:onProperty :genere ;
+                                 owl:hasValue "Avventura"
+                               ] ;
+           rdfs:subClassOf :Genere ;
+           rdfs:comment "Avventura - Opera cinematografica basata sul racconto di imprese rischiose e piene di imprevisti, inserite all'interno di viaggi in luoghi misteriosi e irti di pericoli."^^xsd:string ;
+           rdfs:label "Avventura"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Azione
+:Azione rdf:type owl:Class ;
+        owl:equivalentClass [ rdf:type owl:Restriction ;
+                              owl:onProperty :genere ;
+                              owl:hasValue "Azione"
+                            ] ;
+        rdfs:subClassOf :Genere ;
+        rdfs:comment "Azione - Opera cinematografica in cui la trama viene raccontata per mezzo di un certo numero di scene d'azione, durante le quali uno o più protagonisti si trovano a dover affrontare una serie di sfide che richiedono coraggio e prodezza fisica"^^xsd:string ;
+        rdfs:label "Azione"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Capitolo
+:Capitolo rdf:type owl:Class ;
+          rdfs:subClassOf <http://www.ontologydesignpatterns.org/cp/owl/list.owl#ListItem> ,
+                          :Cartoon ;
+          rdfs:label "Capitolo"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Cartoon
+:Cartoon rdf:type owl:Class ;
+         owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :direttoDa ;
+                                                      owl:someValuesFrom :Regista
+                                                    ]
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :distributoDa ;
+                                                      owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                      owl:onClass :Studio
+                                                    ]
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :haComeProtagonista ;
+                                                      owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                      owl:onClass :Principale
+                                                    ]
+                                                  ) ;
+                               rdf:type owl:Class
+                             ] ;
+         rdfs:subClassOf <http://www.semanticweb.org/albertolillo/wolly#TecnicheD'animazione> ;
+         owl:disjointUnionOf ( :Cortometraggio
+                               :Film
+                               :Serie
+                             ) ;
+         rdfs:comment "Cartoon - Opera cinematografica creata tramite disegni posti in rapida successione."^^xsd:string ;
+         rdfs:label "Cartoon"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#CartoonPerBambini
+:CartoonPerBambini rdf:type owl:Class ;
+                   owl:equivalentClass [ owl:intersectionOf ( :Cartoon
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :etapubblico ;
+                                                                owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                     owl:onDatatype xsd:nonNegativeInteger ;
+                                                                                     owl:withRestrictions ( [ xsd:maxExclusive "12"^^xsd:nonNegativeInteger
+                                                                                                            ]
+                                                                                                          )
+                                                                                   ]
+                                                              ]
+                                                            ) ;
+                                         rdf:type owl:Class
+                                       ] ;
+                   rdfs:subClassOf :Cartoon ;
+                   rdfs:comment "CartoonPerBambini - Cartoon inidirizzato ad una fascia d'età sotto i 12 anni"^^xsd:string ;
+                   rdfs:label "CartoonPerBambini"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#CartoonPerRagazzi
+:CartoonPerRagazzi rdf:type owl:Class ;
+                   owl:equivalentClass [ owl:intersectionOf ( :Cartoon
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :etapubblico ;
+                                                                owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                     owl:onDatatype xsd:nonNegativeInteger ;
+                                                                                     owl:withRestrictions ( [ xsd:minInclusive "12"^^xsd:nonNegativeInteger
+                                                                                                            ]
+                                                                                                          )
+                                                                                   ]
+                                                              ]
+                                                            ) ;
+                                         rdf:type owl:Class
+                                       ] ;
+                   rdfs:subClassOf :CartoonPerBambini ;
+                   rdfs:comment "CartoonPerRagazzi - Cartoon destinato ad una fascia d'età dopra i 12 anni"^^xsd:string ;
+                   rdfs:label "CartoonPerRagazzi"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Commedia
+:Commedia rdf:type owl:Class ;
+          owl:equivalentClass [ rdf:type owl:Restriction ;
+                                owl:onProperty :genere ;
+                                owl:hasValue "Commedia"
+                              ] ;
+          rdfs:subClassOf :Genere ;
+          rdfs:comment "Commedia - Opera cinematografica che pone l'accento sull'umorismo."^^xsd:string ;
+          rdfs:label "Commedia"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Cortometraggio
+:Cortometraggio rdf:type owl:Class ;
+                owl:equivalentClass [ owl:intersectionOf ( :Cartoon
+                                                           [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                                    owl:onProperty :durata ;
+                                                                                    owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                                         owl:onDatatype xsd:nonNegativeInteger ;
+                                                                                                         owl:withRestrictions ( [ xsd:minInclusive "30"^^xsd:nonNegativeInteger
+                                                                                                                                ]
+                                                                                                                              )
+                                                                                                       ]
+                                                                                  ]
+                                                                                  [ rdf:type owl:Restriction ;
+                                                                                    owl:onProperty :durata ;
+                                                                                    owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                                         owl:onDatatype xsd:nonNegativeInteger ;
+                                                                                                         owl:withRestrictions ( [ xsd:maxInclusive "39"^^xsd:nonNegativeInteger
+                                                                                                                                ]
+                                                                                                                              )
+                                                                                                       ]
+                                                                                  ]
+                                                                                ) ;
+                                                             rdf:type owl:Class
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf :Cartoon ;
+                rdfs:comment "Cortometraggio - Breve film, generalmente di durata non superiore ai 30 minuti."^^xsd:string ;
+                rdfs:label "Cortometraggio"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Doppiatore
+:Doppiatore rdf:type owl:Class ;
+            owl:equivalentClass [ rdf:type owl:Restriction ;
+                                  owl:onProperty :daLaVoceA ;
+                                  owl:someValuesFrom :Personaggio
+                                ] ;
+            rdfs:subClassOf :Produzione ;
+            rdfs:comment "Doppiatore - Attore che presta la propria voce per il doppiaggio di un opera cinematografica"^^xsd:string ;
+            rdfs:label "Doppiatore"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Drammatico
+:Drammatico rdf:type owl:Class ;
+            owl:equivalentClass [ rdf:type owl:Restriction ;
+                                  owl:onProperty :genere ;
+                                  owl:hasValue "Drammatico"
+                                ] ;
+            rdfs:subClassOf :Genere ;
+            rdfs:comment "Drammatico - Opera cinematografica che si basa sullo sviluppo dei personaggi, dell'interazione tra essi e che tratta temi di impatto emotivo."^^xsd:string ;
+            rdfs:label "Drammatico"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Episodio
+:Episodio rdf:type owl:Class ;
+          rdfs:subClassOf :Serie ;
+          rdfs:comment "Episodio - Frammento narrativo di una serie televisiva o cinematografica"^^xsd:string ;
+          rdfs:label "Episodio"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Fantasy
+:Fantasy rdf:type owl:Class ;
+         owl:equivalentClass [ rdf:type owl:Class ;
+                               owl:unionOf ( [ rdf:type owl:Class ;
+                                               owl:unionOf ( [ rdf:type owl:Restriction ;
+                                                               owl:onProperty :haComePersonaggio ;
+                                                               owl:someValuesFrom :PersonaggioConPoteri
+                                                             ]
+                                                             [ rdf:type owl:Restriction ;
+                                                               owl:onProperty :haComeProtagonista ;
+                                                               owl:someValuesFrom :PersonaggioConPoteri
+                                                             ]
+                                                           )
+                                             ]
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty :genere ;
+                                               owl:hasValue "Fantasy"
+                                             ]
+                                           )
+                             ] ;
+         rdfs:subClassOf :Genere ;
+         rdfs:comment "Fantasy - Opera cinematografica in cui la storia si svolge in un mondo immaginario, con elementi di fantasia come tema importante; solitamente sotto forma di stregoneria, creature e / o mondi immaginari."^^xsd:string ;
+         rdfs:label "Fantasy"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Film
+:Film rdf:type owl:Class ;
+      owl:equivalentClass [ owl:intersectionOf ( :Cartoon
+                                                 [ rdf:type owl:Restriction ;
+                                                   owl:onProperty :durata ;
+                                                   owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                        owl:onDatatype xsd:nonNegativeInteger ;
+                                                                        owl:withRestrictions ( [ xsd:minExclusive "40"^^xsd:nonNegativeInteger
+                                                                                               ]
+                                                                                             )
+                                                                      ]
+                                                 ]
+                                               ) ;
+                            rdf:type owl:Class
+                          ] ;
+      rdfs:subClassOf :Cartoon ;
+      rdfs:comment "Film - Singola produzione cinematografica"^^xsd:string ;
+      rdfs:label "Film"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Genere
+:Genere rdf:type owl:Class ;
+        rdfs:comment "Genere - Convenzione che permette di classificare le diverse opere cinematografiche in base ad alcuni temi o caratteristiche ricorrenti."^^xsd:string ;
+        rdfs:label "Genere"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Musicale
+:Musicale rdf:type owl:Class ;
+          owl:equivalentClass [ rdf:type owl:Restriction ;
+                                owl:onProperty :genere ;
+                                owl:hasValue "Musicale"
+                              ] ;
+          rdfs:subClassOf :Genere ;
+          rdfs:comment "Musicale - Opera cinematografica in cui una miscela di danza e le canzoni cantate (che sono cantate dai personaggi) sono intessute nella storia (una specie di commedia canora)."^^xsd:string ;
+          rdfs:label "Musicale"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Nazionalità
+:Nazionalità rdf:type owl:Class ;
+             rdfs:comment "Nazionalità - Nazione di appartenenza"^^xsd:string ;
+             rdfs:label "Nazionalità"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Personaggio
+:Personaggio rdf:type owl:Class ;
+             owl:equivalentClass <http://xmlns.com/foaf/0.1/Person> ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :recitaIn ;
+                                   owl:someValuesFrom :Cartoon
+                                 ] ;
+             rdfs:comment "Personaggio - Persona, o soggetto fisico, attorno al quale e per il quale nasce e si sviluppa una storia per immagini."^^xsd:string ;
+             rdfs:label "Personaggio"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#PersonaggioConPoteri
+:PersonaggioConPoteri rdf:type owl:Class ;
+                      owl:equivalentClass [ owl:intersectionOf ( :Personaggio
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty :potere ;
+                                                                   owl:someValuesFrom xsd:string
+                                                                 ]
+                                                               ) ;
+                                            rdf:type owl:Class
+                                          ] ;
+                      rdfs:subClassOf :Personaggio ;
+                      rdfs:comment "PersonaggioConPoteri - Personaggio dotato di un potere"^^xsd:string ;
+                      rdfs:label "PersonaggioConPoteri"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Principale
+:Principale rdf:type owl:Class ;
+            owl:equivalentClass [ rdf:type owl:Restriction ;
+                                  owl:onProperty :èilProtagonistaDi ;
+                                  owl:someValuesFrom :Cartoon
+                                ] ;
+            rdfs:subClassOf :Ruolo ;
+            rdfs:comment "Principale - Personaggio protagonista" ;
+            rdfs:label "Principale"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Produzione
+:Produzione rdf:type owl:Class ;
+            rdfs:comment "Produzione - Persona che lavora per la produzione di un opera cinematografica."^^xsd:string ;
+            rdfs:label "Produzione"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Regista
+:Regista rdf:type owl:Class ;
+         owl:equivalentClass [ rdf:type owl:Restriction ;
+                               owl:onProperty :dirige ;
+                               owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass :Cartoon
+                             ] ;
+         rdfs:subClassOf :Produzione ;
+         rdfs:comment "Regista - La persona che ha la responsabilità artistica e operativa di almeno una opera cinematografica."^^xsd:string ;
+         rdfs:label "Regista"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Ruolo
+:Ruolo rdf:type owl:Class ;
+       rdfs:subClassOf :Personaggio ;
+       owl:disjointUnionOf ( :Antagonista
+                             :Principale
+                             :Secondario
+                           ) ;
+       rdfs:comment "Ruolo - Funzione di un personaggio all'interno di un opera cinematografica"^^xsd:string ;
+       rdfs:label "Ruolo"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Saga
+:Saga rdf:type owl:Class ;
+      rdfs:subClassOf <http://www.ontologydesignpatterns.org/cp/owl/list.owl#List> ,
+                      :Cartoon ;
+      rdfs:comment "Saga - Insieme di ????"^^xsd:string ;
+      rdfs:label "Saga"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Secondario
+:Secondario rdf:type owl:Class ;
+            rdfs:subClassOf :Ruolo ;
+            rdfs:comment "Secondario - Personaggio in secondo piano rispetto al principale"^^xsd:string ;
+            rdfs:label "Secondario"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Sentimentale
+:Sentimentale rdf:type owl:Class ;
+              owl:equivalentClass [ rdf:type owl:Restriction ;
+                                    owl:onProperty :genere ;
+                                    owl:hasValue "Sentimentale"
+                                  ] ;
+              rdfs:subClassOf :Genere ;
+              rdfs:comment "Sentimentale - Opera cinematografica in cui vi sono storie d'amore che si concentrano sulla passione, sull'emozione e sul coinvolgimento affettivo dei personaggi principali e il viaggio compiuto dal loro sentimento d'amore che li porta attraverso il corteggiamento o il matrimonio."^^xsd:string ;
+              rdfs:label "Sentimentale"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Serie
+:Serie rdf:type owl:Class ;
+       owl:equivalentClass [ rdf:type owl:Restriction ;
+                             owl:onProperty :contiene ;
+                             owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onClass :Stagione
+                           ] ;
+       rdfs:subClassOf :Cartoon ;
+       rdfs:comment "Serie - Insieme di stagioni"^^xsd:string ;
+       rdfs:label "Serie"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Stagione
+:Stagione rdf:type owl:Class ;
+          rdfs:subClassOf :Serie ;
+          rdfs:comment "Stagione - Insieme di puntate"^^xsd:string ;
+          rdfs:label "Stagione"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#StopMotion
+:StopMotion rdf:type owl:Class ;
+            rdfs:subClassOf <http://www.semanticweb.org/albertolillo/wolly#TecnicheD'animazione> ;
+            rdfs:comment "StopMotion - Opera cinematografica creata a partire da una serie di scatti fotografici in rapida successione"^^xsd:string ;
+            rdfs:label "StopMotion"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Studio
+:Studio rdf:type owl:Class ;
+        owl:equivalentClass :productionCompany ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :distribuisce ;
+                              owl:someValuesFrom :Cartoon
+                            ] ;
+        rdfs:comment "Studio - Casa produttrice che distribuisce l'opera cinematografica"^^xsd:string ;
+        rdfs:label "Studio"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#coProtagonista
+:coProtagonista rdf:type owl:Class ;
+                owl:equivalentClass [ rdf:type owl:Restriction ;
+                                      owl:onProperty :èInsiemeA ;
+                                      owl:someValuesFrom :Principale
+                                    ] ;
+                rdfs:subClassOf :Principale ;
+                rdfs:comment "coProtagonista - Personaggio che affianca il personaggio principale"^^xsd:string ;
+                rdfs:label "coProtagonista"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#coppiaDiPersonaggi
+:coppiaDiPersonaggi rdf:type owl:Class ;
+                    owl:equivalentClass [ rdf:type owl:Restriction ;
+                                          owl:onProperty :recitaInCoppiaCon ;
+                                          owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :Secondario
+                                        ] ;
+                    rdfs:subClassOf :Secondario ;
+                    rdfs:comment "coppiaDiPersonaggi - Personaggi che recitano con almeno un altro personaggio"^^xsd:string ;
+                    rdfs:label "coppiaDiPersonaggi"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#productionCompany
+:productionCompany rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#3D
+<http://www.semanticweb.org/albertolillo/wolly#3D> rdf:type owl:Class ;
+                                                   rdfs:subClassOf <http://www.semanticweb.org/albertolillo/wolly#TecnicheD'animazione> ;
+                                                   rdfs:comment "3D - Opere cinematografiche create con la computer grafica realizzando oggetti e simulandone il movimento in uno spazio tridimensionale."^^xsd:string ;
+                                                   rdfs:label "3D"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#TecnicheD'animazione
+<http://www.semanticweb.org/albertolillo/wolly#TecnicheD'animazione> rdf:type owl:Class ;
+                                                                     owl:disjointUnionOf ( :Cartoon
+                                                                                           :StopMotion
+                                                                                           <http://www.semanticweb.org/albertolillo/wolly#3D>
+                                                                                         ) ;
+                                                                     rdfs:comment "TecnicheD'animazione - Opere cinematografiche create con la percezione di movimento tramite immagini proposte allo spettatore in rapida successione temporale."^^xsd:string ;
+                                                                     rdfs:label "TecnicheD'animazione"@it .
+
+
+###  http://xmlns.com/foaf/0.1/Person
+<http://xmlns.com/foaf/0.1/Person> rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://purl.org/vocab/vann/JonathanThomas
+<http://purl.org/vocab/vann/JonathanThomas> rdf:type owl:NamedIndividual ;
+                                            :daLaVoceA :SimbaGiovane ;
+                                            :annoDiNascita 1981 ;
+                                            rdfs:label "Jonathan Thomas"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#America
+:America rdf:type owl:NamedIndividual ;
+         rdfs:label "America"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Andrew_Adamson
+:Andrew_Adamson rdf:type owl:NamedIndividual ;
+                :annoDiNascita 1966 ;
+                rdfs:label "Andrew Adamson"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Bloom
+:Bloom rdf:type owl:NamedIndividual ;
+       :èilProtagonistaDi :WinxClub ;
+       :potere "Fuoco" ;
+       rdfs:label "Bloom"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#BrendaChapman
+:BrendaChapman rdf:type owl:NamedIndividual ;
+               :lavoraIn :WaltDisneyStudio ;
+               :scrive :TheLionKing ;
+               :annoDiNascita 1962 ;
+               rdfs:label "Brenda Chapman"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Capitolo1
+:Capitolo1 rdf:type owl:NamedIndividual ;
+           <http://www.ontologydesignpatterns.org/cp/owl/list.owl#firstItemOf> :Shrek ;
+           :contieneFilm :Shrek1 ;
+           rdfs:label "Capitolo1"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Capitolo2
+:Capitolo2 rdf:type owl:NamedIndividual ;
+           :contieneFilm :Shrek2 ;
+           <http://www.ontologydesignpatterns.org/cp/owl/sequence.owl#follows> :Capitolo1 ;
+           rdfs:label "Capitolo2"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Capitolo3
+:Capitolo3 rdf:type owl:NamedIndividual ;
+           :contieneFilm :Shrek3 ;
+           <http://www.ontologydesignpatterns.org/cp/owl/sequence.owl#follows> :Capitolo2 ;
+           rdfs:label "Capitolo3"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Capitolo4
+:Capitolo4 rdf:type owl:NamedIndividual ;
+           :contieneFilm :Shrek_e_vissero_felici_e_contenti ;
+           <http://www.ontologydesignpatterns.org/cp/owl/sequence.owl#follows> :Capitolo3 ;
+           rdfs:label "Capitolo4"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Capitolo5
+:Capitolo5 rdf:type owl:NamedIndividual ;
+           <http://www.ontologydesignpatterns.org/cp/owl/list.owl#lastItemOf> :Shrek ;
+           :contieneFilm :Shrekkati_per_le_feste ;
+           <http://www.ontologydesignpatterns.org/cp/owl/sequence.owl#follows> :Capitolo4 ;
+           rdfs:label "Capitolo5"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#DragonBall
+:DragonBall rdf:type owl:NamedIndividual ;
+            :contiene :DragonBallZ ;
+            :haComeProtagonista :Goku ;
+            :genere "Avventura" ,
+                    "Azione" ;
+            rdfs:label "Drangon Ball"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#DragonBallZ
+:DragonBallZ rdf:type owl:NamedIndividual ;
+             :èStagioneDi :DragonBall ;
+             :anno "1989"^^xsd:int ;
+             :genere "Avventura" ,
+                     "Azione" ;
+             rdfs:label "Dragon Ball Z"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#DreamWorks
+:DreamWorks rdf:type owl:NamedIndividual ;
+            :distribuisce :Shrek ,
+                          :Shrek1 ,
+                          :Shrek2 ,
+                          :Shrek3 ,
+                          :Shrek_e_vissero_felici_e_contenti ,
+                          :Shrekkati_per_le_feste ;
+            :haSedeIn :America ;
+            :nome "DreamWorks"^^xsd:string ;
+            rdfs:label "DreamWorks"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Fiona
+:Fiona rdf:type owl:NamedIndividual ;
+       :èInsiemeA :ShrekPersonaggio ;
+       rdfs:label "Fiona"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Flora
+:Flora rdf:type owl:NamedIndividual ;
+       :recitaIn :WinxClub ;
+       :èInsiemeA :Bloom ;
+       :potere "Terra" ;
+       rdfs:label "Flora"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Giappone
+:Giappone rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Goku
+:Goku rdf:type owl:NamedIndividual ;
+      :potere "OndaEnergetica"^^xsd:string ;
+      rdfs:label "Goku"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#IginioStraffi
+:IginioStraffi rdf:type owl:NamedIndividual ;
+               :dirige :WinxClub ;
+               :scrive :WinxClub ;
+               :annoDiNascita 1965 ;
+               rdfs:label "Iginio Straffi"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#IlMiniGokuèUnTesoro
+:IlMiniGokuèUnTesoro rdf:type owl:NamedIndividual ;
+                     :èEpisodioDi :DragonBallZ ;
+                     <http://www.semanticweb.org/albertolillo/wolly#èContenuto/a_in> :DragonBallZ ;
+                     :durata "22"^^xsd:int ;
+                     rdfs:label "Il Mini Goku è Un Tesoro"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#IlPiùForteGuerrieroDellaStoria
+:IlPiùForteGuerrieroDellaStoria rdf:type owl:NamedIndividual ;
+                                :èEpisodioDi :DragonBallZ ;
+                                <http://www.semanticweb.org/albertolillo/wolly#èContenuto/a_in> :DragonBallZ ;
+                                :durata 22 ;
+                                rdfs:label "Il Più Forte Guerriero Della Storia"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#IlReLeone
+:IlReLeone rdf:type owl:NamedIndividual ;
+           :èIlDoppiaggioDi :TheLionKing ;
+           :genere "Avventura"^^xsd:string ,
+                   "Commedia"^^xsd:string ,
+                   "Drammatico"^^xsd:string ,
+                   "Musicale"^^xsd:string ;
+           :lingua "Italiano"^^xsd:string ;
+           :linguaOriginale "Inglese"^^xsd:string ;
+           :titoloOriginale "The Lion King" ;
+           rdfs:label "Il Re Leone"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Italia
+:Italia rdf:type owl:NamedIndividual ;
+        rdfs:label "Italia"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#JamesBaxter
+:JamesBaxter rdf:type owl:NamedIndividual ;
+             :disegna :Simba ;
+             :annoDiNascita 1967 ;
+             rdfs:label "James Baxter"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Lord_Farquaad
+:Lord_Farquaad rdf:type owl:NamedIndividual ;
+               :èIlCattivoDi :Shrek ,
+                             :Shrek1 ,
+                             :Shrek2 ,
+                             :Shrek3 ,
+                             :Shrek_e_vissero_felici_e_contenti ,
+                             :Shrekkati_per_le_feste ;
+               rdfs:label "Lord Farquaad"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#MatthewBroderick
+:MatthewBroderick rdf:type owl:NamedIndividual ;
+                  :daLaVoceA :Simba ;
+                  :annoDiNascita 1962 ;
+                  rdfs:label "Matthew Broderick"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Mike_Myers
+:Mike_Myers rdf:type owl:NamedIndividual ;
+            :daLaVoceA :ShrekPersonaggio ;
+            :annoDiNascita 1963 ;
+            rdfs:label "Mike Myers"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Mufasa
+:Mufasa rdf:type owl:NamedIndividual ;
+        :èInsiemeA :Simba ;
+        rdfs:label "Mufasa"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Musa
+:Musa rdf:type owl:NamedIndividual ;
+      :recitaIn :WinxClub ;
+      :èInsiemeA :Bloom ;
+      :potere "Suono" ;
+      rdfs:label "Musa"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Pumba
+:Pumba rdf:type owl:NamedIndividual ,
+                :Secondario ;
+       :recitaIn :TheLionKing ;
+       :recitaInCoppiaCon :Timon ;
+       rdfs:label "Pumba"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Rainbow
+:Rainbow rdf:type owl:NamedIndividual ;
+         :distribuisce :WinxClub ;
+         :haSedeIn :Italia ;
+         rdfs:label "Rainbow"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Raman_Hui
+:Raman_Hui rdf:type owl:NamedIndividual ;
+           :disegna :Fiona ,
+                    :ShrekPersonaggio ;
+           rdfs:label "Raman Hui"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#RogerAllers
+:RogerAllers rdf:type owl:NamedIndividual ;
+             :dirige :TheLionKing ;
+             :lavoraIn :WaltDisneyStudio ;
+             :annoDiNascita 1949 ;
+             rdfs:label "Roger Allers"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Scar
+:Scar rdf:type owl:NamedIndividual ;
+      :èIlCattivoDi :TheLionKing ;
+      rdfs:label "Scar"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Shrek
+:Shrek rdf:type owl:NamedIndividual ,
+                :Saga ;
+       :direttoDa :Andrew_Adamson ;
+       :etapubblico 12 ;
+       <http://www.ontologydesignpatterns.org/cp/owl/bag.owl#hasItem> :Capitolo2 ,
+                                                                      :Capitolo3 ,
+                                                                      :Capitolo4 ,
+                                                                      :Capitolo5 ;
+       <http://www.ontologydesignpatterns.org/cp/owl/list.owl#hasFirstItem> :Capitolo1 ;
+       rdfs:label "Shrek"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Shrek1
+:Shrek1 rdf:type owl:NamedIndividual ;
+        :anno 2001 ;
+        :durata 90 ;
+        :etapubblico 12 ;
+        :lingua "ita" ;
+        :linguaOriginale "eng" ;
+        :titolo "Shrek 1"^^xsd:string ;
+        :titoloOriginale "Shrek" ;
+        rdfs:label "Shrek1"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Shrek2
+:Shrek2 rdf:type owl:NamedIndividual ;
+        :anno 2004 ;
+        :durata 93 ;
+        :etapubblico 12 ;
+        :lingua "ita" ;
+        :linguaOriginale "eng" ;
+        :titoloOriginale "Shrek2" ;
+        rdfs:label "Shrek2"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Shrek3
+:Shrek3 rdf:type owl:NamedIndividual ;
+        :anno 2007 ;
+        :durata 92 ;
+        :etapubblico 12 ;
+        :lingua "ita" ;
+        :linguaOriginale "eng" ;
+        :titoloAlternativo "Shrek3" ;
+        :titoloOriginale "Shrek The Third" ;
+        rdfs:label "Shrek Terzo"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#ShrekPersonaggio
+:ShrekPersonaggio rdf:type owl:NamedIndividual ;
+                  :èilProtagonistaDi :Shrek ,
+                                     :Shrek1 ,
+                                     :Shrek2 ,
+                                     :Shrek3 ,
+                                     :Shrek_e_vissero_felici_e_contenti ,
+                                     :Shrekkati_per_le_feste .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Shrek_e_vissero_felici_e_contenti
+:Shrek_e_vissero_felici_e_contenti rdf:type owl:NamedIndividual ;
+                                   :anno 2010 ;
+                                   :durata 88 ;
+                                   :etapubblico 12 ;
+                                   :lingua "ita" ;
+                                   :linguaOriginale "eng" ;
+                                   :titoloOriginale "Shrek Forever After" ;
+                                   <http://www.ontologydesignpatterns.org/cp/owl/sequence.owl#follows> :Capitolo4 ;
+                                   rdfs:label "Shrek e vissero felici e contenti"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Shrekkati_per_le_feste
+:Shrekkati_per_le_feste rdf:type owl:NamedIndividual ;
+                        :anno 2007 ;
+                        :durata 30 ;
+                        :etapubblico 12 ;
+                        :lingua "ita" ;
+                        :linguaOriginale "eng" ;
+                        :titoloOriginale "" ,
+                                         "Shrek the Halls" ;
+                        rdfs:label "Shrekkati per le feste"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Simba
+:Simba rdf:type owl:NamedIndividual ;
+       :èilProtagonistaDi :TheLionKing ;
+       rdfs:label "Simba"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#SimbaGiovane
+:SimbaGiovane rdf:type owl:NamedIndividual ;
+              :recitaIn :TheLionKing ;
+              rdfs:label "Simba Giovane"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Stella
+:Stella rdf:type owl:NamedIndividual ;
+        :recitaIn :WinxClub ;
+        :èInsiemeA :Bloom ;
+        :potere "Luce" ;
+        rdfs:label "Stella"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Tecna
+:Tecna rdf:type owl:NamedIndividual ;
+       :recitaIn :WinxClub ;
+       :èInsiemeA :Bloom ;
+       :potere "Elettricità" ;
+       rdfs:label "Tecna"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#TheLionKing
+:TheLionKing rdf:type owl:NamedIndividual ;
+             :anno "1994"^^xsd:int ;
+             :durata "89"^^xsd:int ;
+             :genere "Avventura" ,
+                     "Commedia" ,
+                     "Drammatico" ,
+                     "Musicale" ;
+             :lingua "Inglese"^^xsd:string ;
+             :linguaOriginale "Inglese"^^xsd:string ;
+             :titolo "The Lion King"^^xsd:string ;
+             rdfs:label "The Lion King"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Timon
+:Timon rdf:type owl:NamedIndividual ,
+                :Secondario ;
+       :recitaIn :TheLionKing ;
+       rdfs:label "Timon"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#Toei_Animation
+:Toei_Animation rdf:type owl:NamedIndividual ;
+                :distribuisce :DragonBall ;
+                :haSedeIn :Giappone ;
+                rdfs:label "Toei Animation" .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#WaltDisneyStudio
+:WaltDisneyStudio rdf:type owl:NamedIndividual ;
+                  :distribuisce :TheLionKing ;
+                  :haSedeIn :America ;
+                  :nome "WaltDisneyStudio"^^xsd:string ;
+                  rdfs:label "Walt Disney Studio"@it .
+
+
+###  http://www.semanticweb.org/albertolillo/wolly#WinxClub
+:WinxClub rdf:type owl:NamedIndividual ;
+          :anno 2004 ;
+          :etapubblico 3 ;
+          :genere "Avventura" ,
+                  "Azione" ;
+          :lingua "Italiano" ;
+          :linguaOriginale "Italiano" ;
+          :titoloAlternativo "Le Winx" ;
+          rdfs:label "Winx Club"@it .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :Pumba
+                        :Timon
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :Simba
+                        :SimbaGiovane
+                      )
+] .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
